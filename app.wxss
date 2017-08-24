@@ -3,12 +3,15 @@
 
 page {
 	background-color: #efefef;
-	font-family: "Microsoft Yahei, Arial, Helvetica, sans-serif";
+	font-family: "PingFangSC-Medium, Arial"; 
+  font-size: 16px;
+  line-height: 1.5;
 }
+
 .section {
 	background: #fff;
 	border-bottom: 1rpx solid #dedede;
-	margin-bottom: 15rpx;
+	/* margin-bottom: 15rpx;  */
 	padding: 20rpx;
 }
 
@@ -19,18 +22,33 @@ page {
 }
 
 /*特殊按钮*/
-button.yellow {
-	color: #fff;
-	background: #feb70f;
+button[type=primary], .weui-btn_primary {
+  position: relative;
+  color: #fff;
+  background-color: #ff5801;
 }
-button.yellow:after {
-	border-color: rgba(255, 133, 111, 0.3);
+button[type="primary"][plain] {
+  color: #ff5801;
+  border-color: #ff5801;
 }
-button.yellow.hover {
-	background: #e4b203;
+
+button[type="primary"][disabled], button[loading][type="primary"] {
+  background-color: #ffa97c;
 }
-button.yellow.disabled {
-	background: #f4e283;
+
+.button-hover[type=primary], .button-hover.weui-btn_primary {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #ee5200;
+}
+
+.button-hover[type=primary][plain] {
+  color: #ee5200;
+  border-color: #ee5200;
+}
+
+.button-sp-area {
+  margin-top: 15px;
+  padding: 0 15px;
 }
 
 

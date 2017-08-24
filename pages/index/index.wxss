@@ -1,4 +1,6 @@
 /**index.wxss**/
+@import '/templates/shop/shop.wxss'; 
+
 page {
 	height: 100%;
 }
@@ -91,7 +93,7 @@ scroll-view {
 }
 
 .section-big {
-	padding: 20rpx;
+	
 }
 .section-big .title {
 	position: relative;
@@ -140,6 +142,7 @@ scroll-view {
 .nearby {
 	padding-left: 0;
 	padding-right: 0;
+  margin-top:8px;
 }
 .nearby .filters {
 	display: -webkit-flex;

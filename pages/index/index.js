@@ -2,10 +2,13 @@
 //获取应用实例
 var app = getApp();
 var server = require('../../utils/util.js');
+import Shop from '../../templates/shop/shop.js';
+
 Page({
   data: {
     filterId: 1,
     address: '多伦多',
+    show: {},
     banners: [
       {
         id: 3,
@@ -155,6 +158,11 @@ Page({
       }
     });
   },
+  onReady:function(){
+    this.setData({
+      activityIconMap: app.globalData.activityIconMap
+    })
+  },
   onShow: function () {
   },
   onScroll: function (e) {
@@ -210,5 +218,8 @@ Page({
       content: '您点击了“' + name + '”活动链接，活动页面暂未完成！',
       showCancel: false
     });
+  },
+  toggleShopActivity: function (e) {
+    Shop.toggleShopActivity.call(this, e);
   }
 });

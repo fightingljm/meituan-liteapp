@@ -75,7 +75,7 @@ export function filterEmptyObject(list) {
 export function selectedShopDetail(shopId) {
   var app = getApp();
   for (var i = 0; i < app.globalData.shops.length; ++i) {
-    if (app.globalData.shops[i].id == shopId) {
+    if (app.globalData.shops[i].seller_id == shopId) {
       return app.globalData.shops[i]
     }
   }

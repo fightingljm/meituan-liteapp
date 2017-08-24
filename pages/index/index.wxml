@@ -1,4 +1,6 @@
 <!--index.wxml-->
+<import src="/templates/shop/shop.wxml" />
+
 <view class="container">
 	<view class="header {{scrollDown?'scrolled':''}}">
 		<view class="location ellipsis" bindtap="toNearby">
@@ -40,21 +42,9 @@
 				<view class="filter {{filterId==3?'active':''}}" data-id="3" bindtap="tapFilter">距离最近<text class="v">↓</text>
 				</view>
 			</view>
-			<view class="shop" wx:for="{{shops}}" wx:key="id">
-				<navigator url="/pages/shop/shop?id={{item.id}}" style="width: 100%; height: 100%">
-					<view class='shop-container'>	
-						<view class='shop-logo'><image src="{{item.logo}}" style="height: 100%"/></view>
-						<view class='shop-detail'>
-							<view class='shop-name'>{{item.restaurant_name}}</view>
-							<view class='shop-data'>
-								<view class='start-price'>起送价：¥{{item.start_price}}</view>
-								<view class='send-price'>配送费：¥{{item.send_price}}</view>
-								<view class='send-time'> <i class='send-time-icon'></i>{{item.send_time}}</view>
-							</view>												
-						</view>
-					</view>
-				</navigator>
-			</view>
+      <view class="weui-panel__bd shop__list" wx:for="{{shops}}" wx:key="{{seller_id}}">
+        <template is="shop" data="{{item,activityIconMap,showAll:show[item.seller_id]}}"></template>
+      </view>
 		</view>
 	</scroll-view>
 </view>

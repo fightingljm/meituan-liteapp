@@ -7,24 +7,12 @@ import {
 } from '../../utils/util'
 
 var initOrder = {
-  totalNum: 3,
-  totalPrice: 30,
-  totalGoodsPrice: 27,
-  totalPackingFee: 3,
-  goodsNums: {
-    97804:3
-  },
-  goods: [
-    {
-      goods_id: "97804",
-      goods_name: "凉皮",
-      num: 3,
-      packing_fee: "1.00",
-      price: "9.00",
-      sub_id: undefined,
-      sub_name: undefined
-    }
-  ]
+  totalNum: 0,
+  totalPrice: 0,
+  totalGoodsPrice: 0,
+  totalPackingFee: 0,
+  goodsNums: {},
+  goods: []
 }
 
 Page({
@@ -38,7 +26,17 @@ Page({
     showSubGoods: false,
 
     order: initOrder,
-    
+
+    activityIconMap: {
+      1: "../../images/shop/减.png",
+      2: "../../images/shop/准.png",
+      3: "../../images/shop/折.png",
+      4: "../../images/shop/赠.png",
+      5: "../../images/shop/返.png",
+      6: "../../images/shop/特.png",
+      7: "../../images/shop/票.png"
+    },
+
 		cart: {
 			count: 0,
 			total: 0
@@ -49,13 +47,17 @@ Page({
 		defaultImg: 'http://global.zuzuche.com/assets/images/common/zzc-logo.png',
 	},
 	onLoad: function (options) {
+        console.log('options', options)
 		var shopId = options.id;
 		var shop = selectedShopDetail(shopId) // throw Exception
-    console.log('shop', shop)
+        console.log('shop', shop)
 		this.setData({
 			shopId: shopId,
 			shop: shop
 		})
+        wx.setNavigationBarTitle({
+          title: shop.seller_name
+        })
 		var res = wx.getStorageSync('orderList');
 		if(res)
 		{
@@ -103,6 +105,47 @@ Page({
 			activeMenuIndex: e.currentTarget.id
 		})
 	},
+  addGoods(goods, item) {
+    var { goods_id, sub_id, num } = item
+    var itemIndex;
+    if (sub_id) {
+      itemIndex = goods.findIndex(item => {
+        return item['goods_id'] == goods_id && item['sub_id'] == sub_id
+      })
+    } else {
+      itemIndex = goods.findIndex(item => {
+        return item['goods_id'] == goods_id
+      })
+    }
+    if (itemIndex >= 0) {
+      goods[itemIndex]['num'] += num
+    } else {
+      goods.push(item)
+    }
+    return goods
+  },
+  removeGoods(goods, item) {
+    var { goods_id, sub_id, num } = item
+    var itemIndex;
+    if (sub_id) {
+      itemIndex = goods.findIndex(item => {
+        return item['goods_id'] == goods_id && item['sub_id'] == sub_id
+      })
+    } else {
+      itemIndex = goods.findIndex(item => {
+        return item['goods_id'] == goods_id
+      })
+    }
+    if (itemIndex >= 0) {
+      item = goods[itemIndex]
+      if (item.num > num) {
+        item.num -= num
+      } else {
+        goods.splice(itemIndex, 1)
+      }
+    }
+    return goods
+  },
 	tabClick: function (e) {
 		// console.log('tabClick', e)
 		this.setData({
@@ -110,6 +153,7 @@ Page({
 		});
   },
   showSubGoods(e) {
+    console.log('showSubGoods', e)
     var { shop: { goods_map }, order } = this.data;
     var { goodsId } = e.currentTarget.dataset;
     var { goods_id, goods_name, sub_goods } = goods_map[goodsId];
@@ -128,10 +172,21 @@ Page({
       showSubGoods: false
     })
   },
+  changeSubGoods(e) {
+    var { subIndex } = e.currentTarget.dataset;
+    var { activeSubGoods } = this.data;
+    activeSubGoods['activeIndex'] = subIndex
+    this.setData({
+      activeSubGoods
+    })
+  },
   increase(e) {
+    console.log('increase', e)
     var { order, shop: { goods_map } } = this.data;
+    console.log('increase', goods_map)
     var { goodsId, subId } = e.currentTarget.dataset;
     var goods = goods_map[goodsId];
+    console.log('increase', goods)
     var { goods_id, goods_name } = goods
     if (subId) {
       goods = goods.sub_goods_map[subId];
@@ -205,6 +260,34 @@ Page({
     }
     this.setData({
       showCart: !showCart
+    })
+  },
+  calcGoodsNums(goods) {
+    var goodsNums = {}
+    for (let i = 0, len = goods.length; i < len; i++) {
+      let { goods_id, num } = goods[i]
+      if (goodsNums[goods_id]) {
+        goodsNums[goods_id] += num
+      } else {
+        goodsNums[goods_id] = num
+      }
+    }
+    return goodsNums
+  },
+  calcSubNums(goods, goodsId) {
+    var subNums = {}
+    for (let i = 0, len = goods.length; i < len; i++) {
+      let { goods_id, sub_id, num } = goods[i]
+      if (goods_id == goodsId) {
+        subNums[sub_id] = num
+      }
+    }
+    return subNums
+  },
+  clearCart(e) {
+    this.setData({
+      order: initOrder,
+      showCart: false
     })
   },
   hideCart(e) {
@@ -364,10 +447,61 @@ Page({
 			showCartDetail: false
 		});
 	},
-	submit: function (e) {
+  onAddQuasiOrder: function (e) {
 		var total = this.data.cart.total
 		wx.navigateTo({
-		  url: '/page/order/order?pay=1&total=' + total
+		  url: '/pages/order/order?pay=1&total=' + total
 		})
-	}
+	},
+  // onAddQuasiOrder(e) {
+  //   var that = this
+  //   var {
+  //     info: { seller_id },
+  //     order: { goods },
+  //     loading
+  //   } = this.data
+  //   if (loading) {
+  //     return
+  //   }
+
+  //   this.setData({
+  //     loading: true
+  //   })
+  //   getApp().getLoginInfo(loginInfo => {
+  //     if (!loginInfo.is_login) {
+  //       wx.navigateTo({
+  //         url: '/pages/login/login',
+  //       })
+  //       this.setData({
+  //         loading: false
+  //       })
+  //       return
+  //     }
+  //     addQuasiOrder({
+  //       seller_id, goods,
+  //       success(data) {
+
+  //         that.setData({
+  //           loading: false
+  //         })
+  //         wx.navigateTo({
+  //           url: `/pages/order/quasi?id=${data.quasi_order_id}`
+  //         })
+  //       },
+  //       error() {
+  //         that.setData({
+  //           loading: false
+  //         })
+  //       }
+  //     })
+  //   })
+  // },
+  onShareAppMessage() {
+    var { shop: { seller_id, seller_name, pic_url } } = this.data
+    return {
+      title: seller_name,
+      path: `/pages/shop/shop?id=${seller_id}`,
+      imageUrl: pic_url
+    }
+  }
 });

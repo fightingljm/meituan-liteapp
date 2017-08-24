@@ -1,1 +1,5 @@
-{}
+{
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#24292e",
+  "navigationBarTextStyle": "#fff"
+}

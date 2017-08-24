@@ -27,7 +27,7 @@
             <view wx:if="{{item.packing_fee > 0}}" class="text-small grey-color">餐盒费{{item.packing_fee}}元</view>
             </view>
             <view class="cart-box__item-btns">
-                <template is="goods-actions" data="{{...item}}"></template>
+                <template is="stepper" data="{{...item}}"></template>
             </view>
         </view>
       </view>

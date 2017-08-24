@@ -1,4 +1,4 @@
-<import src="goods-actions"/>
+<import src="../stepper/stepper.wxml"/>
 
 <template name="spec">
   <view class="sub-goods">
@@ -21,7 +21,7 @@
           <text class="primary-color sub-goods__price">¥{{sub_goods[activeIndex]['price']}}</text>
           <text class="text-small">({{sub_goods[activeIndex]['sub_name']}})</text>
         </view>
-        <template is="goods-actions" wx:if="{{subNums[sub_goods[activeIndex]['sub_id']] > 0}}"  data="{{goods_id, sub_id: sub_goods[activeIndex]['sub_id'], num: subNums[sub_goods[activeIndex]['sub_id']]}}"></template>
+        <template is="stepper" wx:if="{{subNums[sub_goods[activeIndex]['sub_id']] > 0}}"  data="{{goods_id, sub_id: sub_goods[activeIndex]['sub_id'], num: subNums[sub_goods[activeIndex]['sub_id']]}}"></template>
         <view data-goods-id="{{goods_id}}" data-sub-id="{{sub_goods[activeIndex]['sub_id']}}" bindtap="increase" wx:else class="sub-goods__add-cart">
           加入购物车
         </view>
