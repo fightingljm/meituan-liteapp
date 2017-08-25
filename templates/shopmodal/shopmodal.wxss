@@ -1,0 +1,98 @@
+.shopmodal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.shopmodal__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.line{
+  margin:30rpx 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.line2{
+  margin-top:30rpx;
+  border-bottom: 1px solid #ccc;
+}
+
+.shopmodal__notice-title{
+  margin: 30rpx 0
+}
+
+.shopmodal__content {
+    position: absolute;
+    left: 50%;
+    top: 15%;
+    width: 300px;
+    box-sizing: border-box;
+    background-color: #111;
+    transform: translateX(-50%);
+    border-radius: 5px;
+    text-align: center;
+    padding:50rpx 30rpx;
+    color:#fff;
+    font-size: 13px;
+}
+
+.shopmodal__shoptitle {
+    padding: 5px 0;
+    text-align: center;
+    font-size: 16px;
+}
+
+.shopmodal__item {
+    float: left;
+    margin: 10px 15px 0 0;
+    padding: 3px 10px;
+    min-width: 20px;
+    text-align: center;
+    border: 1rpx solid #e8e8e8;
+    border-radius: 10px/50%;
+}
+
+.shopmodal__item_active {
+    border-color: #FFB000;
+    color: #FFB000;
+    background-color: #FFFBF1;
+}
+.shopmodal__star{
+    max-width:28%;
+    margin:0 auto;
+}
+.close-warp{
+    position: relative;
+}
+.shopmodal__close {
+    position: absolute;
+    right:46%;
+    top:66px;
+}
+.shopmodal-promotion-item{
+    line-height: 40rpx;
+    height: 40rpx;
+    text-align:left;
+    display: flex;
+}
+.shopmodal-promotion-img{
+    width:16px;
+    height:16px;
+    margin-right: 10rpx;
+}
+.shopmodal-promotion-info{
+    height:16px;
+}
+.shopmodal__notice{
+  text-align: left;
+  /* text-indent: 16px; */
+}

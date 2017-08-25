@@ -24,6 +24,7 @@ Page({
     showCart: false,
 
     showSubGoods: false,
+    showShopModal:false,
 
     order: initOrder,
 
@@ -170,6 +171,17 @@ Page({
   hideSubGoods(e) {
     this.setData({
       showSubGoods: false
+    })
+  },
+  showShopModal(e) {
+    console.log('showShopModal', e)
+    this.setData({
+      showShopModal: true,
+    })
+  },
+  hideShopModal(e) {
+    this.setData({
+      showShopModal: false
     })
   },
   changeSubGoods(e) {

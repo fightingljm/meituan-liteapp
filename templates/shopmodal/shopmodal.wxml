@@ -1,0 +1,32 @@
+<import src="/templates/star/star.wxml" />
+
+<template name="shopmodal">
+  <view class="shopmodal">
+    <view class="shopmodal__overlay" bindtap="hideShopModal"></view>
+    <view class="shopmodal__content">
+      <image class="weui-media-box__thumb shop-info__pic" src="{{pic_url}}" />
+      <view class="shopmodal__shoptitle">
+        {{seller_name}}
+      </view>
+      <view class="shopmodal__star">
+          <template is="star" data="{{value: overall}}" />
+      </view>
+      <view>
+          {{min_price}}元起送 | {{reach_time}}分钟 | 距离{{distanceFormat}}km 
+      </view>
+      <view class="line"></view>
+      <view wx:for="{{promotion}}" wx:key="{{index}}" class="shopmodal-promotion-item">
+        <image class="shopmodal-promotion-img" src="{{activityIconMap[item.typeId]}}"></image>
+        <view class="shopmodal-promotion-info">{{item.info}}</view>
+      </view>
+      <view class="line2"></view>
+      <view>
+        <view class="shopmodal__notice-title">商家公告</view>
+        <view class="shopmodal__notice">{{notice}}</view>
+      </view>
+      <view class="close-warp">
+        <icon bindtap="hideShopModal" class="shopmodal__close" type="cancel" size="25" color="#fff"/>
+      </view>
+    </view>
+  </view>
+</template>

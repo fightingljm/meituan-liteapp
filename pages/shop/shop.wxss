@@ -4,6 +4,7 @@
 @import '/templates/stepper/stepper.wxss';
 @import '/templates/cart/cart.wxss';
 @import '/templates/spec/spec.wxss';
+@import '/templates/shopmodal/shopmodal.wxss';
 
 .shop-show {
   display: flex;
